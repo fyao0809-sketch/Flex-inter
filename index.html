@@ -605,8 +605,57 @@
                         <i class="fas fa-chevron-down transition-transform duration-300"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Actuellement, nous desservons uniquement la liaison Abidjan ↔ Paris.</p>
+                        <p>Actuellement, nous desservons uniquement la liaison Abidjan ↔ Paris. D'autres destinations sont à l'étude pour l'avenir.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expansion future -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-flex-yellow font-bold text-lg uppercase tracking-wider">À venir</span>
+                <h2 class="text-4xl font-bold text-flex-blue mt-2 mb-4">De nouvelles destinations à l'étude</h2>
+                <p class="text-gray-600">Nous étudions l'ouverture de nouvelles liaisons. Dites-nous quelle ville vous intéresse !</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-gray-50 rounded-2xl p-6 text-center opacity-70">
+                    <i class="fas fa-city text-3xl text-flex-blue mb-3"></i>
+                    <h3 class="font-bold">Bruxelles</h3>
+                    <p class="text-sm text-gray-500 mb-3">Belgique</p>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">Bientôt</span>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-6 text-center opacity-70">
+                    <i class="fas fa-city text-3xl text-flex-blue mb-3"></i>
+                    <h3 class="font-bold">Lomé</h3>
+                    <p class="text-sm text-gray-500 mb-3">Togo</p>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">Bientôt</span>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-6 text-center opacity-70">
+                    <i class="fas fa-city text-3xl text-flex-blue mb-3"></i>
+                    <h3 class="font-bold">Genève</h3>
+                    <p class="text-sm text-gray-500 mb-3">Suisse</p>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">Bientôt</span>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-6 text-center opacity-70">
+                    <i class="fas fa-city text-3xl text-flex-blue mb-3"></i>
+                    <h3 class="font-bold">Londres</h3>
+                    <p class="text-sm text-gray-500 mb-3">Royaume-Uni</p>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">Bientôt</span>
+                </div>
+            </div>
+
+            <div class="mt-10 bg-flex-light rounded-2xl p-8 text-center">
+                <h3 class="text-xl font-bold text-flex-blue mb-4">Vous souhaitez une nouvelle destination ?</h3>
+                <p class="text-gray-600 mb-6">Votez pour la prochaine ville à ajouter à notre réseau</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="voteCity('Berlin')" class="bg-white px-6 py-3 rounded-full shadow hover:shadow-lg transition">Berlin 🇩🇪</button>
+                    <button onclick="voteCity('Milan')" class="bg-white px-6 py-3 rounded-full shadow hover:shadow-lg transition">Milan 🇮🇹</button>
+                    <button onclick="voteCity('Dakar')" class="bg-white px-6 py-3 rounded-full shadow hover:shadow-lg transition">Dakar 🇸🇳</button>
+                    <button onclick="voteCity('New York')" class="bg-white px-6 py-3 rounded-full shadow hover:shadow-lg transition">New York 🇺🇸</button>
                 </div>
             </div>
         </div>
@@ -666,6 +715,7 @@
                     <ul class="space-y-2 text-gray-400 text-sm">
                         <li>Abidjan → Paris</li>
                         <li>Paris → Abidjan</li>
+                        <li class="text-gray-500 italic">Bruxelles, Lomé, Genève, Londres — bientôt</li>
                     </ul>
                 </div>
                 <div>
@@ -769,6 +819,11 @@
             notif.style.background = type === 'error' ? '#EF4444' : '#10B981';
             notif.classList.add('show');
             setTimeout(() => notif.classList.remove('show'), 3000);
+        }
+
+        // Vote pour nouvelle destination
+        function voteCity(city) {
+            showNotification(`Merci ! Votre vote pour ${city} a été enregistré.`);
         }
 
         // Sélection route
