@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fyao0809-sketch.github.io/Flex-inter/sitemap.xml

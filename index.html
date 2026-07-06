@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex Inter - Envoi de Colis Abidjan ↔ Paris | Livraison 48h</title>
+    <meta name="description" content="Flex Inter - Service d'envoi de colis par avion entre Abidjan et Paris. Livraison en 48h, 10€/kg. Alimentaire, téléphones, chaussures, vêtements, maquillage.">
+    <meta name="keywords" content="envoi colis Abidjan Paris, envoi colis Paris Abidjan, colis par avion, Flex Inter, transport colis Côte d'Ivoire France">
+    <link rel="canonical" href="https://fyao0809-sketch.github.io/Flex-inter/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Flex Inter - Envoi de Colis Abidjan ↔ Paris">
+    <meta property="og:description" content="Envoi de colis par avion entre Abidjan et Paris. Livraison en 48h, 10€/kg.">
+    <meta property="og:url" content="https://fyao0809-sketch.github.io/Flex-inter/">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Flex Inter">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Flex Inter - Envoi de Colis Abidjan ↔ Paris">
+    <meta name="twitter:description" content="Envoi de colis par avion entre Abidjan et Paris. Livraison en 48h, 10€/kg.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Flex Inter",
+      "description": "Service d'envoi de colis par avion entre Abidjan et Paris.",
+      "url": "https://fyao0809-sketch.github.io/Flex-inter/",
+      "areaServed": ["Paris", "Abidjan", "France", "Côte d'Ivoire"],
+      "priceRange": "€€",
+      "telephone": "+33-7-83-37-40-75"
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'flex-blue': '#003B8E',
+                        'flex-yellow': '#FFD700',
+                        'flex-dark': '#002a66',
+                        'flex-light': '#E6F0FF',
+                    },
+                    fontFamily: {
+                        'sans': ['Poppins', 'sans-serif'],
+                        'script': ['Pacifico', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-pattern {
+            background: linear-gradient(135deg, #003B8E 0%, #002a66 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-pattern::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-30px, -30px) rotate(180deg); }
+        }
+        .plane-icon {
+            animation: fly 3s ease-in-out infinite;
+        }
+        @keyframes fly {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .pulse-ring {
+            position: relative;
+        }
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid #FFD700;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .route-line {
+            background: linear-gradient(90deg, #FFD700 50%, transparent 50%);
+            background-size: 20px 100%;
+            animation: dash 20s linear infinite;
+        }
+        @keyframes dash {
+            to { background-position: 1000px 0; }
+        }
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #FFD700, #003B8E);
+            transform: translateX(-50%);
+        }
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .tracking-input {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .payment-method {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .payment-method:hover, .payment-method.selected {
+            border-color: #FFD700;
+            background: #FFFEF0;
+        }
+        .badge-trust {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .faq-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 0;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #6b7280;
+            margin-top: 0;
+        }
+        .faq-answer.active {
+            max-height: 200px;
+            margin-top: 10px;
+        }
+        .price-table th {
+            background: #003B8E;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        .price-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .price-table tr:hover {
+            background: #f9fafb;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10B981;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 9999;
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-gray-50">
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span id="notificationText">Action réussie !</span>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <button onclick="toggleChat()" class="bg-flex-blue text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-flex-dark transition transform hover:scale-110">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div id="chatBox" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="bg-flex-blue text-white p-4 flex justify-between items-center">
+                <div>
+                    <h4 class="font-bold">Support Flex Inter</h4>
+                    <p class="text-xs opacity-80">En ligne</p>
+                </div>
+                <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="h-64 overflow-y-auto p-4 bg-gray-50" id="chatMessages">
+                <div class="bg-white p-3 rounded-lg rounded-tl-none shadow mb-2 max-w-[80%]">
+                    <p class="text-sm">Bonjour ! Comment puis-je vous aider aujourd'hui ?</p>
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Votre message..." class="flex-1 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-flex-blue">
+                    <button onclick="sendMessage()" class="bg-flex-blue text-white px-4 py-2 rounded-lg hover:bg-flex-dark transition">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-lg transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2">
+                    <div class="text-3xl font-extrabold text-flex-blue flex items-center">
+                        FLEX<span class="text-flex-yellow ml-1">INTER</span>
+                        <i class="fas fa-plane text-flex-yellow ml-2 plane-icon text-2xl"></i>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-gray-700 hover:text-flex-blue font-semibold transition">Services</a>
+                    <a href="#tracking" class="text-gray-700 hover:text-flex-blue font-semibold transition">Suivi</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-flex-blue font-semibold transition">Tarifs</a>
+                    <a href="#faq" class="text-gray-700 hover:text-flex-blue font-semibold transition">FAQ</a>
+                    <a href="https://wa.me/33783374075" target="_blank" class="bg-flex-yellow text-flex-blue px-6 py-3 rounded-full font-bold hover:bg-yellow-400 transition shadow-lg transform hover:scale-105">
+                        <i class="fab fa-whatsapp mr-2"></i>Contact
+                    </a>
+                </div>
+
+                <button class="md:hidden text-flex-blue text-2xl" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#services" class="block px-3 py-2 text-gray-700 hover:bg-flex-blue hover:text-white rounded-md">Services</a>
+                <a href="#tracking" class="block px-3 py-2 text-gray-700 hover:bg-flex-blue hover:text-white rounded-md">Suivi</a>
+                <a href="#pricing" class="block px-3 py-2 text-gray-700 hover:bg-flex-blue hover:text-white rounded-md">Tarifs</a>
+                <a href="#faq" class="block px-3 py-2 text-gray-700 hover:bg-flex-blue hover:text-white rounded-md">FAQ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section avec Badges de confiance -->
+    <section class="hero-pattern min-h-screen flex items-center justify-center pt-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+            <div class="text-white space-y-6 z-10">
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="badge-trust"><i class="fas fa-shield-alt"></i> Envoi sécurisé</span>
+                    <span class="badge-trust"><i class="fab fa-whatsapp"></i> Support réactif</span>
+                </div>
+
+                <div class="inline-block bg-flex-yellow text-flex-blue px-4 py-2 rounded-full font-bold text-sm mb-4 animate-bounce">
+                    <i class="fas fa-bolt mr-2"></i>Livraison en 48h
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+                    Envoi de colis<br>
+                    <span class="font-script text-flex-yellow text-6xl md:text-8xl">par avion</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 font-light">
+                    Vos colis entre Abidjan et Paris en toute sécurité. Transport aérien rapide et économique.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button onclick="scrollToSection('calculator')" class="bg-flex-yellow text-flex-blue px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-400 transition shadow-2xl transform hover:scale-105 flex items-center justify-center">
+                        <i class="fas fa-calculator mr-2"></i>Calculer mon tarif
+                    </button>
+                    <button onclick="scrollToSection('tracking')" class="bg-white/20 backdrop-blur-md text-white border-2 border-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-flex-blue transition flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i>Suivre un colis
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-6 pt-4 text-sm">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-flex-yellow text-xl"></i>
+                        <span>Livraison 48h</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-flex-yellow text-xl"></i>
+                        <span>Abidjan ⇄ Paris</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-flex-yellow text-xl"></i>
+                        <span>10€/kg</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative z-10">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4 mt-8">
+                        <div class="bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300">
+                            <img src="https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?w=400&h=400&fit=crop" alt="Produits alimentaires" class="w-full h-48 object-cover rounded-xl">
+                            <p class="text-center mt-2 font-bold text-flex-blue">Alimentaires</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300">
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop" alt="Téléphones" class="w-full h-48 object-cover rounded-xl">
+                            <p class="text-center mt-2 font-bold text-flex-blue">Électronique</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop" alt="Chaussures" class="w-full h-48 object-cover rounded-xl">
+                            <p class="text-center mt-2 font-bold text-flex-blue">Chaussures</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300">
+                            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=400&fit=crop" alt="Vêtements" class="w-full h-48 object-cover rounded-xl">
+                            <p class="text-center mt-2 font-bold text-flex-blue">Mode</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F9FAFB"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Section Suivi de colis -->
+    <section id="tracking" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-flex-yellow font-bold text-lg uppercase tracking-wider">Suivi de colis</span>
+                <h2 class="text-4xl font-bold text-flex-blue mt-2 mb-4">Où est mon colis ?</h2>
+                <p class="text-gray-600">Indiquez votre numéro de commande, nous vous répondons directement sur WhatsApp</p>
+            </div>
+
+            <div class="bg-gradient-to-r from-flex-blue to-flex-dark rounded-3xl p-8 md:p-12 shadow-2xl">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input type="text" id="trackingNumber" placeholder="Votre numéro de commande"
+                        class="flex-1 px-6 py-4 rounded-xl text-lg focus:outline-none focus:ring-4 focus:ring-flex-yellow/50">
+                    <button onclick="trackPackage()" class="bg-flex-yellow text-flex-blue px-8 py-4 rounded-xl font-bold text-lg hover:bg-yellow-400 transition flex items-center justify-center gap-2">
+                        <i class="fab fa-whatsapp"></i> Demander le statut
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculateur avec Paiement -->
+    <section id="calculator" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-flex-blue mb-4">Calculez votre envoi</h2>
+                <p class="text-gray-600">Estimation instantanée, puis commande directe par WhatsApp</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Calculateur -->
+                <div class="bg-white rounded-3xl shadow-xl p-8">
+                    <h3 class="text-2xl font-bold text-flex-blue mb-6">Détails de l'envoi</h3>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Itinéraire</label>
+                            <select id="routeSelect" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-flex-blue focus:outline-none" onchange="calculateTotal()">
+                                <option value="abidjan-paris">Abidjan → Paris</option>
+                                <option value="paris-abidjan">Paris → Abidjan</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Poids (kg)</label>
+                            <div class="relative">
+                                <input type="number" id="weight" min="1" max="100" value="1"
+                                    class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-flex-blue focus:outline-none text-2xl font-bold text-center"
+                                    oninput="calculateTotal()">
+                            </div>
+                            <input type="range" min="1" max="50" value="1" class="w-full mt-4 accent-flex-blue"
+                                oninput="document.getElementById('weight').value = this.value; calculateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-flex-light rounded-2xl">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-600">Tarif</span>
+                            <span class="font-bold">10€/kg</span>
+                        </div>
+                        <div class="border-t pt-2 mt-2 flex justify-between items-center text-xl">
+                            <span class="font-bold text-gray-800">Total estimé</span>
+                            <span class="font-bold text-3xl text-flex-blue" id="totalPrice">10€</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commande -->
+                <div class="bg-white rounded-3xl shadow-xl p-8 flex flex-col">
+                    <h3 class="text-2xl font-bold text-flex-blue mb-6">Passer commande</h3>
+                    <p class="text-gray-600 mb-6">Aucun paiement en ligne pour l'instant : envoyez votre demande sur WhatsApp avec le récapitulatif ci-dessous, et nous organisons la collecte de votre colis.</p>
+
+                    <div class="mt-auto p-6 bg-flex-light rounded-2xl mb-6">
+                        <p class="text-sm text-gray-600 mb-1">Récapitulatif</p>
+                        <p class="font-semibold" id="orderSummary">Abidjan → Paris · 1 kg · 10€</p>
+                    </div>
+
+                    <a id="whatsappOrderLink" href="https://wa.me/33783374075" target="_blank" rel="noopener"
+                        class="w-full bg-flex-blue text-white py-4 rounded-xl font-bold text-lg hover:bg-flex-dark transition flex items-center justify-center gap-2">
+                        <i class="fab fa-whatsapp text-2xl"></i> Commander sur WhatsApp
+                    </a>
+
+                    <div class="mt-6 flex items-center justify-center gap-2 text-gray-400 text-sm">
+                        <i class="fas fa-phone"></i>
+                        <span>Ou appelez-nous au +33 7 83 37 40 75</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tableau des prix -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-flex-blue mb-4">Nos Tarifs</h2>
+                <p class="text-gray-600">Un tarif simple et clair</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="price-table w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <thead>
+                        <tr>
+                            <th>Itinéraire</th>
+                            <th>Délai</th>
+                            <th>Prix</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-semibold"><i class="fas fa-route text-flex-blue mr-2"></i>Abidjan ↔ Paris</td>
+                            <td><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">48h</span></td>
+                            <td class="font-bold text-flex-blue text-xl">10€/kg</td>
+                            <td><button onclick="selectRoute('abidjan-paris')" class="bg-flex-blue text-white px-4 py-2 rounded-lg hover:bg-flex-dark transition">Choisir</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-8 p-6 bg-flex-light rounded-2xl text-center">
+                <p class="text-gray-700">Produits alimentaires, téléphones, chaussures, vêtements, maquillage et autres — <a href="#faq" class="text-flex-blue font-semibold underline">voir les conditions</a>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Processus étape par étape -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-flex-blue mb-4">Comment ça marche ?</h2>
+                <p class="text-gray-600">4 étapes simples pour expédier votre colis</p>
+            </div>
+
+            <div class="relative">
+                <div class="hidden md:block timeline-line"></div>
+                
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="relative text-center">
+                        <div class="w-20 h-20 bg-flex-blue rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 relative z-10 border-4 border-white shadow-lg">
+                            <span class="font-bold">1</span>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-lg card-hover">
+                            <i class="fas fa-calculator text-4xl text-flex-yellow mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Calculez</h3>
+                            <p class="text-gray-600 text-sm">Estimez le prix en fonction du poids et de la destination</p>
+                        </div>
+                    </div>
+
+                    <div class="relative text-center md:mt-12">
+                        <div class="w-20 h-20 bg-flex-blue rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 relative z-10 border-4 border-white shadow-lg">
+                            <span class="font-bold">2</span>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-lg card-hover">
+                            <i class="fab fa-whatsapp text-4xl text-flex-yellow mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Commandez</h3>
+                            <p class="text-gray-600 text-sm">Envoyez votre demande sur WhatsApp pour confirmer votre envoi</p>
+                        </div>
+                    </div>
+
+                    <div class="relative text-center">
+                        <div class="w-20 h-20 bg-flex-blue rounded-full flex items-center justify-center text-white text-3xl mx-auto mb-4 relative z-10 border-4 border-white shadow-lg">
+                            <span class="font-bold">3</span>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-lg card-hover">
+                            <i class="fas fa-box text-4xl text-flex-yellow mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Déposez</h3>
+                            <p class="text-gray-600 text-sm">Déposez votre colis au point de collecte ou demandez un enlèvement</p>
+                        </div>
+                    </div>
+
+                    <div class="relative text-center md:mt-12">
+                        <div class="w-20 h-20 bg-flex-yellow rounded-full flex items-center justify-center text-flex-blue text-3xl mx-auto mb-4 relative z-10 border-4 border-white shadow-lg">
+                            <span class="font-bold">4</span>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-lg card-hover">
+                            <i class="fas fa-home text-4xl text-flex-blue mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Recevez</h3>
+                            <p class="text-gray-600 text-sm">Suivi en temps réel jusqu'à la livraison en 48h</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-20 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-flex-blue mb-4">Questions fréquentes</h2>
+                <p class="text-gray-600">Trouvez rapidement les réponses à vos questions</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="faq-item px-6">
+                    <div class="faq-question py-4" onclick="toggleFaq(this)">
+                        <span>Quels types de colis acceptez-vous ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Nous acceptons les produits alimentaires, téléphones, chaussures, vêtements, maquillage et autres objets courants. Les produits interdits incluent les liquides inflammables, les armes et les produits illégaux.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item px-6">
+                    <div class="faq-question py-4" onclick="toggleFaq(this)">
+                        <span>Comment puis-je suivre mon colis ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Contactez-nous directement sur WhatsApp avec votre numéro de commande, nous vous indiquons où en est votre colis.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item px-6">
+                    <div class="faq-question py-4" onclick="toggleFaq(this)">
+                        <span>Quels sont les délais de livraison ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Livraison en 48 heures entre Abidjan et Paris. Les délais peuvent varier selon les contrôles douaniers.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item px-6">
+                    <div class="faq-question py-4" onclick="toggleFaq(this)">
+                        <span>Comment payer ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Contactez-nous sur WhatsApp ou par téléphone pour organiser le paiement au dépôt ou à la réception du colis.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item px-6 border-b-0">
+                    <div class="faq-question py-4" onclick="toggleFaq(this)">
+                        <span>Livrez-vous dans d'autres villes ?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Actuellement, nous desservons uniquement la liaison Abidjan ↔ Paris. D'autres destinations sont à l'étude pour l'avenir.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expansion future -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-flex-yellow font-bold text-lg uppercase tracking-wider">À venir</span>
+                <h2 class="text-4xl font-bold text-flex-blue mt-2 mb-4">De nouvelles destinations à l'étude</h2>
+                <p class="text-gray-600">Nous étudions l'ouverture de nouvelles liaisons. Dites-nous quelle ville vous intéresse !</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-gray-50 rounded-2xl p-6 text-center opacity-70">
+                    <i class="fas fa-city text-3xl text-flex-blue mb-3"></i>
+                    <h3 class="font-bold">Bruxelles</h3>
+                    <p class="text-sm text-gray-500 mb-3">Belgique</p>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">Bientôt</span>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-6 text-center opacity-70">
+                    <i class="fas fa-city text-3xl text-flex-blue mb-3"></i>
+                    <h3 class="font-bold">Lomé</h3>
+                    <p class="text-sm text-gray-500 mb-3">Togo</p>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">Bientôt</span>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-6 text-center opacity-70">
+                    <i class="fas fa-city text-3xl text-flex-blue mb-3"></i>
+                    <h3 class="font-bold">Genève</h3>
+                    <p class="text-sm text-gray-500 mb-3">Suisse</p>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">Bientôt</span>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-6 text-center opacity-70">
+                    <i class="fas fa-city text-3xl text-flex-blue mb-3"></i>
+                    <h3 class="font-bold">Londres</h3>
+                    <p class="text-sm text-gray-500 mb-3">Royaume-Uni</p>
+                    <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs">Bientôt</span>
+                </div>
+            </div>
+
+            <div class="mt-10 bg-flex-light rounded-2xl p-8 text-center">
+                <h3 class="text-xl font-bold text-flex-blue mb-4">Vous souhaitez une nouvelle destination ?</h3>
+                <p class="text-gray-600 mb-6">Votez pour la prochaine ville à ajouter à notre réseau</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="voteCity('Berlin')" class="bg-white px-6 py-3 rounded-full shadow hover:shadow-lg transition">Berlin 🇩🇪</button>
+                    <button onclick="voteCity('Milan')" class="bg-white px-6 py-3 rounded-full shadow hover:shadow-lg transition">Milan 🇮🇹</button>
+                    <button onclick="voteCity('Dakar')" class="bg-white px-6 py-3 rounded-full shadow hover:shadow-lg transition">Dakar 🇸🇳</button>
+                    <button onclick="voteCity('New York')" class="bg-white px-6 py-3 rounded-full shadow hover:shadow-lg transition">New York 🇺🇸</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confiance -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-flex-blue mb-12">Pourquoi choisir Flex Inter</h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-plane text-6xl text-flex-blue mb-2"></i>
+                    <p class="font-semibold">Envoi par avion</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-bolt text-6xl text-flex-blue mb-2"></i>
+                    <p class="font-semibold">Livraison 48h</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-hand-holding-heart text-6xl text-flex-blue mb-2"></i>
+                    <p class="font-semibold">Colis manipulés avec soin</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fab fa-whatsapp text-6xl text-flex-blue mb-2"></i>
+                    <p class="font-semibold">Support réactif</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="text-2xl font-bold mb-4">
+                        FLEX<span class="text-flex-yellow">INTER</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Votre partenaire de confiance pour l'envoi de colis entre l'Afrique et l'Europe.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://wa.me/33783374075" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-flex-yellow hover:text-flex-blue transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#services" class="hover:text-flex-yellow">Envoi de colis par avion</a></li>
+                        <li><a href="#calculator" class="hover:text-flex-yellow">Calcul du tarif</a></li>
+                        <li><a href="#tracking" class="hover:text-flex-yellow">Suivi de colis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Itinéraire</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li>Abidjan → Paris</li>
+                        <li>Paris → Abidjan</li>
+                        <li class="text-gray-500 italic">Bruxelles, Lomé, Genève, Londres — bientôt</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <p class="text-gray-400 text-sm mb-2">+33 7 83 37 40 75</p>
+                    <a href="https://wa.me/33783374075" class="text-gray-400 text-sm hover:text-flex-yellow">Contactez-nous sur WhatsApp</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Flex Inter. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Calculateur de prix (10€/kg, liaison Abidjan-Paris)
+        const PRICE_PER_KG = 10;
+        const WHATSAPP_NUMBER = '33783374075';
+
+        function routeLabel(route) {
+            return route === 'paris-abidjan' ? 'Paris → Abidjan' : 'Abidjan → Paris';
+        }
+
+        function calculateTotal() {
+            const weight = parseFloat(document.getElementById('weight').value) || 1;
+            const route = document.getElementById('routeSelect').value;
+            const total = weight * PRICE_PER_KG;
+
+            document.getElementById('totalPrice').textContent = total.toFixed(0) + '€';
+            document.getElementById('orderSummary').textContent = `${routeLabel(route)} · ${weight} kg · ${total.toFixed(0)}€`;
+
+            const message = `Bonjour Flex Inter, je souhaite envoyer un colis : ${routeLabel(route)}, ${weight} kg, soit environ ${total.toFixed(0)}€.`;
+            document.getElementById('whatsappOrderLink').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        }
+
+        // Suivi de colis via WhatsApp
+        function trackPackage() {
+            const num = document.getElementById('trackingNumber').value.trim();
+            if (!num) {
+                showNotification('Veuillez entrer votre numéro de commande', 'error');
+                return;
+            }
+            const message = `Bonjour Flex Inter, pouvez-vous me donner le statut de mon colis n°${num} ?`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Chat widget
+        function toggleChat() {
+            document.getElementById('chatBox').classList.toggle('hidden');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value;
+            if (!message) return;
+            
+            const container = document.getElementById('chatMessages');
+            container.innerHTML += `
+                <div class="flex justify-end mb-2">
+                    <div class="bg-flex-blue text-white p-3 rounded-lg rounded-tr-none max-w-[80%]">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+            
+            // Réponse automatique simulée
+            setTimeout(() => {
+                container.innerHTML += `
+                    <div class="bg-white p-3 rounded-lg rounded-tl-none shadow mb-2 max-w-[80%]">
+                        <p class="text-sm">Merci pour votre message ! Un conseiller vous répondra dans quelques minutes.</p>
+                    </div>
+                `;
+                container.scrollTop = container.scrollHeight;
+            }, 1000);
+        }
+
+        // FAQ
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+            
+            answer.classList.toggle('active');
+            icon.style.transform = answer.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+        }
+
+        // Notification
+        function showNotification(text, type = 'success') {
+            const notif = document.getElementById('notification');
+            document.getElementById('notificationText').textContent = text;
+            notif.style.background = type === 'error' ? '#EF4444' : '#10B981';
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        }
+
+        // Vote pour nouvelle destination
+        function voteCity(city) {
+            showNotification(`Merci ! Votre vote pour ${city} a été enregistré.`);
+        }
+
+        // Sélection route
+        function selectRoute(route) {
+            document.getElementById('routeSelect').value = route;
+            calculateTotal();
+            scrollToSection('calculator');
+        }
+
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-xl');
+            } else {
+                navbar.classList.remove('shadow-xl');
+            }
+        });
+
+        // Initialisation
+        calculateTotal();
+    </script>
+</body>
+</html>
