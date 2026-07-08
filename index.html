@@ -343,25 +343,51 @@
             <div class="relative z-10">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-4 mt-8">
-                        <div class="bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300">
+                        <button onclick="openCategory('alimentaire')" class="block w-full text-left bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300 cursor-pointer">
                             <img src="https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?w=400&h=400&fit=crop" alt="Produits alimentaires" class="w-full h-48 object-cover rounded-xl">
                             <p class="text-center mt-2 font-bold text-flex-blue">Alimentaires</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300">
+                        </button>
+                        <button onclick="openCategory('electronique')" class="block w-full text-left bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300 cursor-pointer">
                             <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop" alt="Téléphones" class="w-full h-48 object-cover rounded-xl">
                             <p class="text-center mt-2 font-bold text-flex-blue">Électronique</p>
-                        </div>
+                        </button>
                     </div>
                     <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300">
+                        <button onclick="openCategory('chaussures')" class="block w-full text-left bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300 cursor-pointer">
                             <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop" alt="Chaussures" class="w-full h-48 object-cover rounded-xl">
                             <p class="text-center mt-2 font-bold text-flex-blue">Chaussures</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300">
+                        </button>
+                        <button onclick="openCategory('mode')" class="block w-full text-left bg-white p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300 cursor-pointer">
                             <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=400&fit=crop" alt="Vêtements" class="w-full h-48 object-cover rounded-xl">
                             <p class="text-center mt-2 font-bold text-flex-blue">Mode</p>
-                        </div>
+                        </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal catégorie -->
+        <div id="categoryModal" class="hidden fixed inset-0 bg-black/60 z-[1100] flex items-center justify-center p-4" onclick="if(event.target===this) closeCategory()">
+            <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full max-h-[85vh] overflow-y-auto">
+                <div class="bg-flex-blue text-white p-6 rounded-t-3xl flex justify-between items-start sticky top-0">
+                    <div>
+                        <p class="text-flex-yellow text-sm font-bold uppercase tracking-wider" id="categoryModalTag">Catégorie</p>
+                        <h3 class="text-2xl font-bold" id="categoryModalTitle">Titre</h3>
+                    </div>
+                    <button onclick="closeCategory()" class="text-white hover:text-gray-200 text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <h4 class="font-bold text-gray-800 mb-2"><i class="fas fa-check-circle text-green-500 mr-1"></i> Exemples de ce que vous pouvez envoyer</h4>
+                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-5" id="categoryModalAccepted"></ul>
+                    <h4 class="font-bold text-gray-800 mb-2"><i class="fas fa-times-circle text-red-500 mr-1"></i> Non accepté / soumis à conditions</h4>
+                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-5" id="categoryModalRestricted"></ul>
+                    <p class="text-xs text-gray-400 mb-5">Quantités raisonnables pour usage personnel ou familial. Au-delà, une déclaration en douane peut être nécessaire — contactez-nous pour en discuter.</p>
+                    <a id="categoryModalWhatsapp" href="https://wa.me/33783374075" target="_blank" rel="noopener"
+                        class="w-full bg-flex-blue text-white py-3 rounded-xl font-bold hover:bg-flex-dark transition flex items-center justify-center gap-2">
+                        <i class="fab fa-whatsapp"></i> Demander pour ce type de colis
+                    </a>
                 </div>
             </div>
         </div>
@@ -752,6 +778,50 @@
         // Calculateur de prix (10€/kg, liaison Abidjan-Paris)
         const PRICE_PER_KG = 10;
         const WHATSAPP_NUMBER = '33783374075';
+
+        // Catégories de colis (exemples indicatifs, dans la limite d'un usage personnel/familial)
+        const CATEGORY_INFO = {
+            alimentaire: {
+                tag: 'Alimentaires',
+                title: 'Produits alimentaires',
+                accepted: ['Épices, café, thé en emballage scellé', 'Produits secs (attiéké séché, gari, arachides, poudre de gombo...)', 'Conserves et produits emballés industriellement', 'Confiseries et biscuits emballés'],
+                restricted: ['Produits frais, périssables ou nécessitant une chaîne du froid', 'Liquides et boissons (selon réglementation aérienne)', 'Viande et poisson non transformés', 'Produits déjà entamés ou sans emballage d\'origine']
+            },
+            electronique: {
+                tag: 'Électronique',
+                title: 'Électronique',
+                accepted: ['Téléphones et accessoires (chargeurs, coques, écouteurs)', 'Tablettes et petits appareils électroniques', 'Objets connectés de taille raisonnable'],
+                restricted: ['Grand électroménager (trop volumineux pour le fret aérien standard)', 'Batteries au lithium en grande quantité (réglementation IATA)', 'Appareils déjà signalés volés ou bloqués']
+            },
+            chaussures: {
+                tag: 'Chaussures',
+                title: 'Chaussures',
+                accepted: ['Paires de chaussures neuves ou en bon état', 'Idéalement dans leur boîte ou emballées individuellement'],
+                restricted: ['Grandes quantités destinées à la revente commerciale (déclaration douanière requise)', 'Chaussures visiblement contrefaites']
+            },
+            mode: {
+                tag: 'Mode',
+                title: 'Vêtements & Maquillage',
+                accepted: ['Vêtements et accessoires de mode', 'Sacs, ceintures, bijoux fantaisie', 'Produits de maquillage et cosmétiques scellés'],
+                restricted: ['Grandes quantités à visée commerciale (déclaration douanière requise)', 'Parfums et aérosols en grande quantité (réglementation aérienne)', 'Articles contrefaits']
+            }
+        };
+
+        function openCategory(key) {
+            const info = CATEGORY_INFO[key];
+            if (!info) return;
+            document.getElementById('categoryModalTag').textContent = info.tag;
+            document.getElementById('categoryModalTitle').textContent = info.title;
+            document.getElementById('categoryModalAccepted').innerHTML = info.accepted.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('categoryModalRestricted').innerHTML = info.restricted.map(i => `<li>${i}</li>`).join('');
+            const message = `Bonjour Flex Inter, j'ai une question sur l'envoi de : ${info.title}.`;
+            document.getElementById('categoryModalWhatsapp').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            document.getElementById('categoryModal').classList.remove('hidden');
+        }
+
+        function closeCategory() {
+            document.getElementById('categoryModal').classList.add('hidden');
+        }
 
         function routeLabel(route) {
             return route === 'paris-abidjan' ? 'Paris → Abidjan' : 'Abidjan → Paris';
