@@ -790,22 +790,30 @@
         }
 
         const CHAT_RULES = [
-            { keywords: ['tarif', 'prix', 'cout', 'coute', 'combien'], reply: 'Le tarif est de <strong>10€/kg</strong> pour l\'itinéraire Abidjan ⇄ Paris. Utilisez le calculateur plus haut sur la page pour une estimation selon le poids de votre colis.' },
-            { keywords: ['delai', 'temps', 'duree', 'rapide', 'longtemps'], reply: 'La livraison prend <strong>48 heures</strong> entre Abidjan et Paris (les contrôles douaniers peuvent parfois rallonger ce délai).' },
+            { keywords: ['tarif', 'prix', 'cout', 'coute', 'combien coute', 'combien ca coute', 'combien pour'], reply: 'Le tarif est de <strong>10€/kg</strong> pour l\'itinéraire Abidjan ⇄ Paris. Utilisez le calculateur plus haut sur la page pour une estimation selon le poids de votre colis.' },
+            { keywords: ['delai', 'temps', 'duree', 'rapide', 'longtemps', 'combien de temps'], reply: 'La livraison prend <strong>48 heures</strong> entre Abidjan et Paris (les contrôles douaniers peuvent parfois rallonger ce délai).' },
             { keywords: ['suivi', 'suivre', 'ou est', 'statut', 'tracking'], reply: 'Indiquez votre numéro de commande dans la section "Suivi de colis" plus haut : cela ouvre WhatsApp avec votre demande pré-remplie pour obtenir le statut réel de votre colis.' },
             { keywords: ['commander', 'envoyer', 'reserver', 'comment faire', 'expedier'], reply: 'Utilisez le calculateur pour estimer le prix, puis cliquez sur "Commander sur WhatsApp" : votre récapitulatif (itinéraire, poids, prix) sera pré-rempli dans le message.' },
             { keywords: ['payer', 'paiement', 'espece', 'mobile money'], reply: 'Le paiement se fait au dépôt ou à la réception du colis. Contactez-nous sur WhatsApp pour organiser les modalités.' },
-            { keywords: ['accepte', 'interdit', 'type de colis', 'quoi envoyer', 'alimentaire', 'telephone', 'chaussure', 'vetement', 'maquillage'], reply: 'Nous acceptons les produits alimentaires, téléphones, chaussures, vêtements, maquillage et autres objets courants. Les liquides inflammables, armes et produits illégaux sont interdits.' },
+            { keywords: ['accepte', 'interdit', 'type de colis', 'quoi envoyer', 'alimentaire', 'chaussure', 'vetement', 'maquillage'], reply: 'Nous acceptons les produits alimentaires, téléphones, chaussures, vêtements, maquillage et autres objets courants. Les liquides inflammables, armes et produits illégaux sont interdits.' },
             { keywords: ['destination', 'ville', 'autre pays', 'bruxelles', 'lome', 'geneve', 'londres'], reply: 'Actuellement, nous desservons uniquement Abidjan ⇄ Paris. Bruxelles, Lomé, Genève et Londres sont à l\'étude pour l\'avenir.' },
-            { keywords: ['contact', 'telephone', 'numero', 'appeler'], reply: 'Vous pouvez nous joindre au <strong>+33 7 83 37 40 75</strong> ou directement sur WhatsApp via le bouton ci-dessous.' },
+            { keywords: ['contact', 'numero', 'appeler', 'joindre'], reply: 'Vous pouvez nous joindre au <strong>+33 7 83 37 40 75</strong> ou directement sur WhatsApp via le bouton ci-dessous.' },
             { keywords: ['bonjour', 'salut', 'bonsoir', 'hello'], reply: 'Bonjour ! Comment puis-je vous aider : tarifs, délais, suivi, ou commande ?' },
             { keywords: ['merci'], reply: 'Avec plaisir ! N\'hésitez pas si vous avez d\'autres questions.' }
         ];
 
         function botReply(userText) {
             const normalized = normalize(userText);
-            const rule = CHAT_RULES.find(r => r.keywords.some(k => normalized.includes(normalize(k))));
-            if (rule) return rule.reply;
+            let best = null;
+            let bestScore = 0;
+            for (const rule of CHAT_RULES) {
+                const score = rule.keywords.filter(k => normalized.includes(normalize(k))).length;
+                if (score > bestScore) {
+                    bestScore = score;
+                    best = rule;
+                }
+            }
+            if (best) return best.reply;
             return 'Je n\'ai pas de réponse automatique pour cette question. Cliquez sur "Parler à un conseiller sur WhatsApp" ci-dessous pour une réponse personnalisée.';
         }
 
