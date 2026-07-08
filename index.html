@@ -218,13 +218,44 @@
         <span id="notificationText">Action réussie !</span>
     </div>
 
-    <!-- Bouton WhatsApp flottant -->
+    <!-- Assistant automatique -->
     <div class="chat-widget">
-        <a href="https://wa.me/33783374075" target="_blank" rel="noopener"
-            class="bg-flex-blue text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-flex-dark transition transform hover:scale-110"
-            aria-label="Contacter Flex Inter sur WhatsApp">
-            <i class="fab fa-whatsapp"></i>
-        </a>
+        <button onclick="toggleChat()" class="bg-flex-blue text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:bg-flex-dark transition transform hover:scale-110" aria-label="Ouvrir l'assistant Flex Inter">
+            <i class="fas fa-robot"></i>
+        </button>
+        <div id="chatBox" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="bg-flex-blue text-white p-4 flex justify-between items-center">
+                <div>
+                    <h4 class="font-bold">Assistant Flex Inter</h4>
+                    <p class="text-xs opacity-80"><i class="fas fa-circle text-green-400 mr-1" style="font-size:8px;"></i>Réponses automatiques instantanées</p>
+                </div>
+                <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="h-64 overflow-y-auto p-4 bg-gray-50" id="chatMessages">
+                <div class="bg-white p-3 rounded-lg rounded-tl-none shadow mb-2 max-w-[85%]">
+                    <p class="text-sm">Bonjour 👋 Je suis l'assistant automatique de Flex Inter. Posez-moi une question (tarifs, délais, suivi...) ou choisissez ci-dessous.</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-2 px-4 py-2 border-t bg-white" id="chatSuggestions">
+                <button onclick="askQuick('Quel est le tarif ?')" class="text-xs bg-flex-light text-flex-blue px-3 py-1.5 rounded-full hover:bg-flex-yellow transition">💰 Tarif</button>
+                <button onclick="askQuick('Quel est le délai de livraison ?')" class="text-xs bg-flex-light text-flex-blue px-3 py-1.5 rounded-full hover:bg-flex-yellow transition">⏱️ Délai</button>
+                <button onclick="askQuick('Comment suivre mon colis ?')" class="text-xs bg-flex-light text-flex-blue px-3 py-1.5 rounded-full hover:bg-flex-yellow transition">📦 Suivi</button>
+                <button onclick="askQuick('Comment commander ?')" class="text-xs bg-flex-light text-flex-blue px-3 py-1.5 rounded-full hover:bg-flex-yellow transition">🛒 Commander</button>
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex gap-2 mb-2">
+                    <input type="text" id="chatInput" placeholder="Votre question..." class="flex-1 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-flex-blue" onkeydown="if(event.key==='Enter'){sendMessage();}">
+                    <button onclick="sendMessage()" class="bg-flex-blue text-white px-4 py-2 rounded-lg hover:bg-flex-dark transition">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <a href="https://wa.me/33783374075" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 text-xs text-flex-blue font-semibold hover:underline">
+                    <i class="fab fa-whatsapp"></i> Parler à un conseiller sur WhatsApp
+                </a>
+            </div>
+        </div>
     </div>
 
     <!-- Navigation -->
@@ -747,6 +778,73 @@
             }
             const message = `Bonjour Flex Inter, pouvez-vous me donner le statut de mon colis n°${num} ?`;
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Assistant automatique (réponses par mots-clés, sans IA ni backend)
+        function toggleChat() {
+            document.getElementById('chatBox').classList.toggle('hidden');
+        }
+
+        function normalize(str) {
+            return str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        }
+
+        const CHAT_RULES = [
+            { keywords: ['tarif', 'prix', 'cout', 'coute', 'combien'], reply: 'Le tarif est de <strong>10€/kg</strong> pour l\'itinéraire Abidjan ⇄ Paris. Utilisez le calculateur plus haut sur la page pour une estimation selon le poids de votre colis.' },
+            { keywords: ['delai', 'temps', 'duree', 'rapide', 'longtemps'], reply: 'La livraison prend <strong>48 heures</strong> entre Abidjan et Paris (les contrôles douaniers peuvent parfois rallonger ce délai).' },
+            { keywords: ['suivi', 'suivre', 'ou est', 'statut', 'tracking'], reply: 'Indiquez votre numéro de commande dans la section "Suivi de colis" plus haut : cela ouvre WhatsApp avec votre demande pré-remplie pour obtenir le statut réel de votre colis.' },
+            { keywords: ['commander', 'envoyer', 'reserver', 'comment faire', 'expedier'], reply: 'Utilisez le calculateur pour estimer le prix, puis cliquez sur "Commander sur WhatsApp" : votre récapitulatif (itinéraire, poids, prix) sera pré-rempli dans le message.' },
+            { keywords: ['payer', 'paiement', 'espece', 'mobile money'], reply: 'Le paiement se fait au dépôt ou à la réception du colis. Contactez-nous sur WhatsApp pour organiser les modalités.' },
+            { keywords: ['accepte', 'interdit', 'type de colis', 'quoi envoyer', 'alimentaire', 'telephone', 'chaussure', 'vetement', 'maquillage'], reply: 'Nous acceptons les produits alimentaires, téléphones, chaussures, vêtements, maquillage et autres objets courants. Les liquides inflammables, armes et produits illégaux sont interdits.' },
+            { keywords: ['destination', 'ville', 'autre pays', 'bruxelles', 'lome', 'geneve', 'londres'], reply: 'Actuellement, nous desservons uniquement Abidjan ⇄ Paris. Bruxelles, Lomé, Genève et Londres sont à l\'étude pour l\'avenir.' },
+            { keywords: ['contact', 'telephone', 'numero', 'appeler'], reply: 'Vous pouvez nous joindre au <strong>+33 7 83 37 40 75</strong> ou directement sur WhatsApp via le bouton ci-dessous.' },
+            { keywords: ['bonjour', 'salut', 'bonsoir', 'hello'], reply: 'Bonjour ! Comment puis-je vous aider : tarifs, délais, suivi, ou commande ?' },
+            { keywords: ['merci'], reply: 'Avec plaisir ! N\'hésitez pas si vous avez d\'autres questions.' }
+        ];
+
+        function botReply(userText) {
+            const normalized = normalize(userText);
+            const rule = CHAT_RULES.find(r => r.keywords.some(k => normalized.includes(normalize(k))));
+            if (rule) return rule.reply;
+            return 'Je n\'ai pas de réponse automatique pour cette question. Cliquez sur "Parler à un conseiller sur WhatsApp" ci-dessous pour une réponse personnalisée.';
+        }
+
+        function appendMessage(text, fromUser) {
+            const container = document.getElementById('chatMessages');
+            const wrapper = document.createElement('div');
+            if (fromUser) {
+                wrapper.className = 'flex justify-end mb-2';
+                wrapper.innerHTML = `<div class="bg-flex-blue text-white p-3 rounded-lg rounded-tr-none max-w-[85%]"><p class="text-sm">${text}</p></div>`;
+            } else {
+                wrapper.className = 'mb-2';
+                wrapper.innerHTML = `<div class="bg-white p-3 rounded-lg rounded-tl-none shadow max-w-[85%]"><p class="text-sm">${text}</p></div>`;
+            }
+            container.appendChild(wrapper);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function handleUserMessage(text) {
+            if (!text) return;
+            appendMessage(escapeHtml(text), true);
+            setTimeout(() => appendMessage(botReply(text), false), 400);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            handleUserMessage(text);
+        }
+
+        function askQuick(text) {
+            handleUserMessage(text);
         }
 
         // FAQ
